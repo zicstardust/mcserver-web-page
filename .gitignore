@@ -1,0 +1,6 @@
+*.pyc
+__pycache__
+.venv/
+.env
+background_image_use
+background_image_temp

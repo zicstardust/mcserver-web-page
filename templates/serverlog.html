@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/serverlog.css') }}">
+{% endblock %}
+
+{% block title %}Server Log{% endblock %}
+
+{% block content %}
+<div id="serverlog">
+{% if serverlog ==  "Response error" or serverlog == "Connection Error": %}
+    <p>{{ serverlog }}</p>
+{% else %}
+    {%for i in serverlog[1:-1]%}
+        {% if i[-1] ==  ",": %}
+            <p>{{i[1:-2]}}</p>
+        {% else %}
+            <p>{{i[1:-1]}}</p>
+        {% endif %}
+    {%endfor%}
+{% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+let elem = document.getElementById('serverlog');
+elem.scrollTop = elem.scrollHeight;
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+services:
+  mcserver-web-page:
+    container_name: mcserver-web-page
+    build: .
+    environment:
+      SERVER_NAME: "Server name"
+      SERVER_URI_JAVA: "play.exemple.com"
+      #PORT: 8080 #Default: 8080
+      #SERVER_URI_BEDROCK: "bedrock.exemple.com:19132" #Opcional
+      #SERVER_MAP_URL: "https://dynmap.exemple.com"  #Opcional
+      #DISCORD_LINK: "https://discord.gg/exemple"  #Opcional
+      #BACKGROUND_IMAGE_URL: "https://exemple.com/image" #Opcional
+      #CRAFTY_URL= #Opcional
+      #CRAFTY_API_KEY= #Opcional
+      #CRAFTY_SERVER_ID= #Opcional
+    ports:
+      - "8080:8080"

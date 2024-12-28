@@ -1,0 +1,16 @@
+#serverlog{
+    background-color: black;
+    overflow-x:hidden;
+    overflow-y:visible;
+    margin-bottom: 10%;
+    border-style: groove;
+    border-radius: 5px;
+    border-color: white;
+}
+
+
+p {
+    font-family: 'Ariel';
+    font-size: 13px;
+    line-height: 10px;
+}

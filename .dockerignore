@@ -1,0 +1,16 @@
+*.pyc
+__pycache__
+.dockerignore
+.git
+.venv
+.github
+.env
+.env-exemple
+.gitignore
+README.md
+docker-compose.yml
+Dockerfile
+requirements-dev.txt
+background_image_use
+background_image_temp
+.tool-versions

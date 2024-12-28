@@ -1,0 +1,145 @@
+* {
+    font-family: 'Minecraft', sans-serif;
+    color: white;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background-color: black;
+    font-family: 'Archivo', sans-serif;
+    text-transform: uppercase;
+}
+
+button {
+    background-color: rgb(17, 196, 17);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(17, 196, 17);
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: white;
+    color: rgb(17, 196, 17);
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.background {
+    background-image: url("../img/background_image_use");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    width: 100vw;
+    z-index: -1;
+    height: 100vh;
+    filter: brightness(0.4);
+    -webkit-filter: brightness(0.4);
+    transform: scale(1.2);
+}
+
+.foreground {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    /* align-items: center; */
+    height: 100vh;
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    padding-left: 10vw;
+    padding-right: 15vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    color: white;
+    font-size: 1.5rem;
+}
+
+
+.green {
+    color: rgb(17, 196, 17);
+}
+
+.darkgreen {
+    color: rgb(3, 65, 3);
+}
+
+.red {
+    color: rgb(255, 24, 24);
+}
+
+.gray {
+    color: rgb(128, 128, 128);
+}
+
+.black {
+    color: black;
+}
+
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    border-bottom: 1px solid white;
+}
+
+.nav-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    gap: 2rem;
+}
+
+/* NAV BAR */
+.left {
+    justify-content: left;
+}
+
+/* USER BAR */
+.right {
+    justify-content: right;
+}
+
+.h-separator {
+    height: 1vw;
+}
+
+.v-separator {
+    height: 50%;
+    width: 1px;
+    background-color: white;
+    opacity: 0.5;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.navbar a:hover {
+    color: rgb(17, 196, 17);
+}

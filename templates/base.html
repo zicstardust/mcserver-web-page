@@ -1,0 +1,37 @@
+<!doctype html>
+<meta charset="UTF-8">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.cdnfonts.com/css/minecraft-3" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}">
+    <title>{{ server_name }} | {% block title %}{% endblock %}</title>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="foreground">
+        <nav class="navbar">
+            <div class="nav-section left">
+                <a href="{{ url_for('index') }}">{{ server_name }}</a>
+                <div class="v-separator"></div>
+                {% if server_map_url != "": %}
+                <a href="{{ server_map_url }}" target="_blank" rel="noopener noreferrer">Map</a>
+                {% endif %}
+                {% if crafty_config_status == "ok": %}
+                <a href="{{ url_for('serverlog') }}">Server Log</a>
+                {% endif %}
+            </div>
+            <div class="nav-section right">
+                {% if discord_link != "": %}
+                <a href="{{ discord_link }}">Discord</a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="h-separator"></div>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    {% block script %}{% endblock %}
+</body>
