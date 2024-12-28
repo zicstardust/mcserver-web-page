@@ -31,4 +31,4 @@ def define_background_image():
             rename(image_path_temp, "static/img/background_image_use")
             return
         
-    copy('static/img/background_image_original', 'static/img/background_image_use')
+    copy('static/img/background_image_original.png', 'static/img/background_image_use')
