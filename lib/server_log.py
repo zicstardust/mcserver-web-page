@@ -10,7 +10,7 @@ crafty_server_id=environ.get("CRAFTY_SERVER_ID","")
 api_url = "{}/api/v2/servers/{}/logs".format(crafty_url,crafty_server_id)
 head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
 
-def get_serverlog():
+def get_server_log():
     try:
         response = requests.get(api_url, headers=head)
     except requests.exceptions.ConnectionError:

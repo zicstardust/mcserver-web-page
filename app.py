@@ -1,7 +1,7 @@
 from os import environ
 from flask import Flask, render_template
 from lib.background_image import define_background_image
-from lib.serverlog import get_serverlog
+from lib.server_log import get_server_log
 from lib.server_status import get_server_status
 
 define_background_image()
@@ -40,9 +40,9 @@ def index():
 
 @app.route("/serverlog")
 def serverlog():
-    serverlog = get_serverlog()
-    return render_template("serverlog.html",
-                           serverlog=serverlog
+    server_log = get_server_log()
+    return render_template("server_log.html",
+                           server_log=server_log
                            )
 
 def production():
