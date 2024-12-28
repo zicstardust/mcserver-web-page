@@ -1,59 +1,23 @@
+import json
+import requests
 from os import environ
-from mcstatus import JavaServer
 
-server = JavaServer.lookup(environ.get("SERVER_URI_JAVA","localhost"))
+crafty_url=environ.get("CRAFTY_URL","")
+crafty_api_key=environ.get("CRAFTY_API_KEY","")
+crafty_server_id=environ.get("CRAFTY_SERVER_ID","")
 
-stats_list = [
-    {
-        "name": "online",
-        "get": lambda status: status.players.online,
-        "default": 0,
-        "text": lambda x: "%d players" % x if x != 1 else "1 player",
-        "color": lambda x: "green" if x > 0 else "red",
-        "icon": lambda x: ("group" if x > 1 else "person") if x > 0 else "person_off",
-    },
-    {
-        "name": "status",
-        "get": lambda status: True,
-        "default": False,
-        "text": lambda x: "online" if x else "offline",
-        "color": lambda x: "green" if x else "red",
-        "icon": lambda x: "power" if x else "power_off",
-    },
-    {
-        "name": "latency",
-        "get": lambda status: status.latency,
-        "default": 9999,
-        "text": lambda x: f"{x:.1f}",
-        "color": lambda x: "green" if x < 100 else "red",
-        "icon": lambda x: "wifi" if x < 9999 else "wifi_off",
-    },
-]
-
-
-def construct_stat(stat, value):
-    res = {"name": stat["name"]}
-    for key in stat:
-        if key in ["get", "default", "name"]:
-            continue
-        res[key] = stat[key](value)
-    return res
+api_url = "{}/api/v2/servers/{}/stats".format(crafty_url,crafty_server_id)
+head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
 
 
 def get_server_status():
     try:
-        status = server.status()
-    except:
-        status = None
+        response = requests.get(api_url, headers=head)
+    except requests.exceptions.ConnectionError:
+        return "Connection Error"
 
-    server_status = []
-    if status:
-        for stat in stats_list:
-            value = stat["get"](status)
-            server_status.append(construct_stat(stat, value))
-    else:
-        for stat in stats_list:
-            value = stat["default"]
-            server_status.append(construct_stat(stat, value))
-
-    return server_status
+    if response.status_code == 200:
+        running = (json.dumps(response.json()['data']['running'], indent=4))
+        players_online = (json.dumps(response.json()['data']['online'], indent=4))
+        return dict(running=running, players_online=players_online)
+    return "Response error"

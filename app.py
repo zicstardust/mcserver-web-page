@@ -32,6 +32,7 @@ def inject_global_vars():
 @app.route("/")
 def index():
     server_status = get_server_status()
+    print(server_status)
     return render_template("index.html",
                            server_status=server_status,
                            server_uri_java=environ.get("SERVER_URI_JAVA","localhost"),
