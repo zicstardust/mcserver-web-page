@@ -3,9 +3,9 @@ from lib.app import *
 
 def before_start_app():
     define_background_image()
-    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
+    api_status = check_api()
     if api_status != 'Ok':
-        print('Error in Crafty environment variables: {}'.format(check_api(crafty_url, crafty_api_key, crafty_server_id)))
+        print('Error in Crafty environment variables: {}'.format(check_api()))
 
 def production():
     before_start_app()

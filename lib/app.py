@@ -1,8 +1,6 @@
 from flask import Flask, render_template
-from .server_log import get_server_log
-from .server_status import get_server_status
-from .check_api import check_api
-from .load_env import *
+from .api_consumer import get_server_log, get_server_status, check_api
+from .load_env import server_name, server_map_url, discord_link, server_uri_java, server_uri_bedrock
 
 
 app = Flask(__name__,
@@ -11,7 +9,7 @@ app = Flask(__name__,
 
 @app.context_processor
 def inject_global_vars():
-    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
+    api_status = check_api()
     return dict(server_name=server_name,
                 server_map_url=server_map_url,
                 discord_link=discord_link,
