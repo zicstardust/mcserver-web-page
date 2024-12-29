@@ -10,7 +10,7 @@ services:
     environment:
       SERVER_NAME: "Server name"
       SERVER_URI_JAVA: "play.exemple.com"
-      #PORT: 8080 #Default: 8080
+      #PORT: 5000 #Default: 5000
       #SERVER_URI_BEDROCK: "bedrock.exemple.com:19132" #Opcional
       #SERVER_MAP_URL: "https://dynmap.exemple.com"  #Opcional
       #DISCORD_LINK: "https://discord.gg/exemple"  #Opcional
@@ -19,5 +19,5 @@ services:
       #CRAFTY_API_KEY: #Opcional
       #CRAFTY_SERVER_ID: #Opcional
     ports:
-      - "8080:8080"
+      - "5000:5000"
 ```
