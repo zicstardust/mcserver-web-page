@@ -18,9 +18,7 @@
                 {% if server_map_url != "": %}
                 <a href="{{ server_map_url }}" target="_blank" rel="noopener noreferrer">Map</a>
                 {% endif %}
-                {% if crafty_config_status == "ok": %}
                 <a href="{{ url_for('serverlog') }}">Server Log</a>
-                {% endif %}
             </div>
             <div class="nav-section right">
                 {% if discord_link != "": %}

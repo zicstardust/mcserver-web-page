@@ -8,7 +8,7 @@
 
 {% block content %}
 <div id="server_log">
-{% if server_log ==  "Response error" or server_log == "Connection Error": %}
+{% if api_status !=  "Ok": %}
     <p>{{ server_log }}</p>
 {% else %}
     {%for i in server_log[1:-1]%}
