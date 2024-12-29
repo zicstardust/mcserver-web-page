@@ -19,6 +19,12 @@
             <h3 class="offline">Offline</h3>
         {% endif %}
         <h3>Players: {{ server_status['players_online'] }}</h3>
+        {% if server_status['players_online'] > 0 %}
+            <h3 class="Players_Online">Players Online:</h3>
+            {%for i in server_status['players']%}
+                <h5>- {{ i }}</h5>
+            {%endfor%}
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}

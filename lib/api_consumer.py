@@ -23,6 +23,14 @@ def check_api(crafty_url=crafty_url, crafty_api_key=crafty_api_key, crafty_serve
         return "Ok"
 
 
+def convert_players_to_list(players:str):
+    s = players.replace(']','')
+    s = s.replace('"','')
+    s = s.replace('\'','')
+    l = list(s.split(sep='['))
+    l.pop(0)
+    return l
+
 def get_server_log():
     api_status = check_api()
     if api_status == "Ok":
@@ -41,5 +49,6 @@ def get_server_status():
         response = requests.get(api_url, headers=head)
         running = (json.dumps(response.json()['data']['running'], indent=4))
         players_online = (json.dumps(response.json()['data']['online'], indent=4))
-        return dict(running=running, players_online=players_online)
+        players = convert_players_to_list(json.dumps(response.json()['data']['players'], indent=4))
+        return dict(running=running, players_online=int(players_online), players=players)
     return api_status

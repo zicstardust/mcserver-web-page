@@ -9,3 +9,7 @@ h1 {
 .offline {
     color: red;
 }
+
+.Players_Online{
+    margin-bottom: -30px;
+}
