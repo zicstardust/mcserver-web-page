@@ -1,11 +1,9 @@
 from flask import Flask, render_template
-from .background_image import define_background_image
 from .server_log import get_server_log
 from .server_status import get_server_status
 from .check_api import check_api
 from .load_env import *
 
-define_background_image()
 
 app = Flask(__name__,
             template_folder='../templates',
