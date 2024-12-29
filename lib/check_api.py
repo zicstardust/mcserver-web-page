@@ -7,8 +7,10 @@ def check_api(crafty_url, crafty_api_key, crafty_server_id):
 
     try:
         response = requests.get(api_url, headers=head)
+    except requests.exceptions.MissingSchema:
+        return "Crafty URL Missing Schema"
     except requests.exceptions.ConnectionError:
-        return "Crafty URL invalid"
+        return "Crafty URL not found"
     
     if response.status_code == 400:
         return "Server ID invalid"
