@@ -5,7 +5,7 @@ def before_start_app():
     define_background_image()
     api_status = check_api()
     if api_status != 'Ok':
-        print('Error in Crafty environment variables: {}'.format(check_api()))
+        print(f'Error in Crafty environment variables: {check_api()}')
 
 def production():
     before_start_app()

@@ -3,8 +3,8 @@ import requests
 from .load_env import crafty_url, crafty_api_key, crafty_server_id
 
 def check_api(crafty_url=crafty_url, crafty_api_key=crafty_api_key, crafty_server_id=crafty_server_id):
-    api_url = "{}/api/v2/servers/{}".format(crafty_url,crafty_server_id)
-    head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
+    api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}"
+    head = {'Authorization': f'Bearer {crafty_api_key}'}
 
     try:
         response = requests.get(api_url, headers=head)
@@ -34,8 +34,8 @@ def convert_players_to_list(players:str):
 def get_server_log():
     api_status = check_api()
     if api_status == "Ok":
-        api_url = "{}/api/v2/servers/{}/logs".format(crafty_url,crafty_server_id)
-        head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
+        api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/logs"
+        head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
         json_data = (json.dumps(response.json()['data'], indent=0))
         return json_data.splitlines()
@@ -44,8 +44,8 @@ def get_server_log():
 def get_server_status():
     api_status = check_api()
     if api_status == "Ok":
-        api_url = "{}/api/v2/servers/{}/stats".format(crafty_url,crafty_server_id)
-        head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
+        api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
+        head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
         running = (json.dumps(response.json()['data']['running'], indent=4))
         players_online = (json.dumps(response.json()['data']['online'], indent=4))
@@ -56,8 +56,8 @@ def get_server_status():
 def get_server_name():
     api_status = check_api()
     if api_status == "Ok":
-        api_url = "{}/api/v2/servers/{}/stats".format(crafty_url,crafty_server_id)
-        head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
+        api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
+        head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
         server_name = json.dumps(response.json()['data']['world_name'], indent=4)
         return server_name.replace("\"","")
