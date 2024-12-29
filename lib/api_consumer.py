@@ -52,3 +52,13 @@ def get_server_status():
         players = convert_players_to_list(json.dumps(response.json()['data']['players'], indent=4))
         return dict(running=running, players_online=int(players_online), players=players)
     return api_status
+
+def get_server_name():
+    api_status = check_api()
+    if api_status == "Ok":
+        api_url = "{}/api/v2/servers/{}/stats".format(crafty_url,crafty_server_id)
+        head = {'Authorization': 'Bearer {}'.format(crafty_api_key)}
+        response = requests.get(api_url, headers=head)
+        server_name = json.dumps(response.json()['data']['world_name'], indent=4)
+        return server_name.replace("\"","")
+    return "MC Server"

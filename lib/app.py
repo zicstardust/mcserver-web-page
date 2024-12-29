@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from .api_consumer import get_server_log, get_server_status, check_api
-from .load_env import server_name, server_map_url, discord_link, server_uri_java, server_uri_bedrock
+from .api_consumer import get_server_log, get_server_status, check_api, get_server_name
+from .load_env import server_map_url, discord_link, server_uri_java, server_uri_bedrock
 
 
 app = Flask(__name__,
@@ -10,6 +10,7 @@ app = Flask(__name__,
 @app.context_processor
 def inject_global_vars():
     api_status = check_api()
+    server_name=get_server_name()
     return dict(server_name=server_name,
                 server_map_url=server_map_url,
                 discord_link=discord_link,

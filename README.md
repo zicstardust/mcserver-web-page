@@ -8,7 +8,6 @@ services:
     image: zicstardust/mcserver-web-page:latest
     restart: unless-stopped
     environment:
-      SERVER_NAME: "Server name"
       SERVER_URI_JAVA: "play.exemple.com"
       #PORT: 5000 #Default: 5000
       #SERVER_URI_BEDROCK: "bedrock.exemple.com:19132" #Opcional
