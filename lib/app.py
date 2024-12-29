@@ -10,10 +10,12 @@ app = Flask(__name__,
             static_folder='../static')
 
 @app.context_processor
-def inject_global_vars():    
+def inject_global_vars():
+    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
     return dict(server_name=server_name,
                 server_map_url=server_map_url,
-                discord_link=discord_link
+                discord_link=discord_link,
+                api_status=api_status
                 )
 
 
@@ -29,8 +31,7 @@ def index():
 @app.route("/serverlog")
 def serverlog():
     server_log = get_server_log()
-    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
+    
     return render_template("server_log.html",
-                           api_status=api_status,
                            server_log=server_log
                            )

@@ -16,9 +16,11 @@
                 <a href="{{ url_for('index') }}">{{ server_name }}</a>
                 <div class="v-separator"></div>
                 {% if server_map_url != "": %}
-                <a href="{{ server_map_url }}" target="_blank" rel="noopener noreferrer">Map</a>
+                    <a href="{{ server_map_url }}" target="_blank" rel="noopener noreferrer">Map</a>
                 {% endif %}
-                <a href="{{ url_for('serverlog') }}">Server Log</a>
+                {% if api_status == 'Ok' %}
+                    <a href="{{ url_for('serverlog') }}">Server Log</a>
+                {% endif %}
             </div>
             <div class="nav-section right">
                 {% if discord_link != "": %}

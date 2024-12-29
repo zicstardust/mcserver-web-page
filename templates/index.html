@@ -12,12 +12,14 @@
 <h2 onclick="copyLink('{{ server_uri_bedrock }}')">Bedrock: {{ server_uri_bedrock }}</h2>
 {% endif %}
 <div class="server_status">
-    {% if server_status['running'] == 'true' %}
-        <h3 class="online">Online</h3>
-    {% else %}
-        <h3 class="offline">Offline</h3>
+    {% if api_status == 'Ok' %}    
+        {% if server_status['running'] == 'true' %}
+            <h3 class="online">Online</h3>
+        {% else %}
+            <h3 class="offline">Offline</h3>
+        {% endif %}
+        <h3>Players: {{ server_status['players_online'] }}</h3>
     {% endif %}
-    <h3>Players: {{ server_status['players_online'] }}</h3>
 </div>
 {% endblock %}
 
