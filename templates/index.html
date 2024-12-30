@@ -8,10 +8,13 @@
 
 {% block content %}
 <div class="server_info">
-<h2 >Java: <span onclick="copyLink('{{ server_uri_java }}')" class="server-link">{{ server_uri_java }}</span></h2>
-{% if server_uri_bedrock != "": %}
-<h2>Bedrock: <span onclick="copyLink('{{ server_uri_bedrock }}')" class="server-link">{{ server_uri_bedrock }}</span></h2>
-{% endif %}
+    {% if server_icon == "Ok": %}
+        <img src="{{ url_for('static', filename='img/server-icon.png') }}" width="64" height="64">
+    {% endif %}
+    <h2 >Java: <span onclick="copyLink('{{ server_uri_java }}')" class="server-link">{{ server_uri_java }}</span></h2>
+    {% if server_uri_bedrock != "": %}
+        <h2>Bedrock: <span onclick="copyLink('{{ server_uri_bedrock }}')" class="server-link">{{ server_uri_bedrock }}</span></h2>
+    {% endif %}
 </div>
 <div class="server_status">
     {% if api_status == 'Ok' %}    

@@ -1,3 +1,5 @@
+import base64
+from os.path import exists
 import json
 import requests
 from html import unescape
@@ -48,9 +50,9 @@ def get_server_status():
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
-        running = (json.dumps(response.json()['data']['running'], indent=4))
-        players_online = (json.dumps(response.json()['data']['online'], indent=4))
-        players = convert_players_to_list(json.dumps(response.json()['data']['players'], indent=4))
+        running = (json.dumps(response.json()['data']['running']))
+        players_online = (json.dumps(response.json()['data']['online']))
+        players = convert_players_to_list(json.dumps(response.json()['data']['players']))
         return dict(running=running, players_online=int(players_online), players=players)
     return api_status
 
@@ -60,6 +62,24 @@ def get_server_name():
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
-        server_name = json.dumps(response.json()['data']['world_name'], indent=4)
+        server_name = json.dumps(response.json()['data']['world_name'])
         return server_name.replace("\"","")
     return "MC Server"
+
+def get_server_icon():
+    api_status = check_api()
+    if api_status == "Ok":
+        api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
+        head = {'Authorization': f'Bearer {crafty_api_key}'}
+        response = requests.get(api_url, headers=head)
+        iconb64 = json.dumps(response.json()['data']['icon'])
+        if iconb64 != "":
+            e = iconb64[1:-1]
+            repair = e.replace('\\n', '')
+            imgdata = base64.b64decode(repair)
+            file = 'static/img/server-icon.png'
+            with open(file, 'wb') as f:
+                f.write(imgdata)
+            if exists(file):
+                return "Ok"
+    return ""

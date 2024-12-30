@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from .api_consumer import get_server_log, get_server_status, check_api, get_server_name
+from .api_consumer import get_server_log, get_server_status, check_api, get_server_name, get_server_icon
 from .load_env import server_map_url, discord_link, server_uri_java, server_uri_bedrock
 
 
@@ -21,10 +21,12 @@ def inject_global_vars():
 @app.route("/")
 def index():
     server_status = get_server_status()
+    server_icon = get_server_icon()
     return render_template("index.html",
                            server_status=server_status,
                            server_uri_java=server_uri_java,
-                           server_uri_bedrock=server_uri_bedrock
+                           server_uri_bedrock=server_uri_bedrock,
+                           server_icon=server_icon
                            )
 
 @app.route("/serverlog")
