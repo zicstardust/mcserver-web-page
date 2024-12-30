@@ -1,5 +1,14 @@
-h1 {
-    font-size: 5rem;
+h2 {
+    font-size: 95%;
+}
+
+.server-link {
+    font-size: 80%;
+    padding: 10px;
+    background-color: black;
+    border-style: groove;
+    border-radius: 5px;
+    border-color: white;
 }
 
 .online {
