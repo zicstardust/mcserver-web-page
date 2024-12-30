@@ -12,7 +12,7 @@ COPY . .
 
 RUN groupadd -g ${GID} mcwebserver; \
     useradd mcwebserver -u ${UID} -g mcwebserver; \
-    pip3 install --no-cache-dir -r requirements-prod.txt; \
+    pip3 install --no-cache-dir -r requirements.txt; \
     echo '#!/bin/sh' > /app/start.sh; \
     echo 'waitress-serve --port=${PORT} --call main:production' >> /app/start.sh; \
     chown -R mcwebserver:mcwebserver /app; \
