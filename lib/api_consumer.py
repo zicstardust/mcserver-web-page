@@ -1,5 +1,6 @@
 import json
 import requests
+from html import unescape
 from .load_env import crafty_url, crafty_api_key, crafty_server_id
 
 def check_api(crafty_url=crafty_url, crafty_api_key=crafty_api_key, crafty_server_id=crafty_server_id):
@@ -37,8 +38,8 @@ def get_server_log():
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/logs"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
-        json_data = (json.dumps(response.json()['data'], indent=0))
-        return json_data.splitlines()
+        server_status = unescape(json.dumps(response.json()['data'], indent=0))
+        return server_status.splitlines()
     return api_status
 
 def get_server_status():
