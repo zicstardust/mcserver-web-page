@@ -2,6 +2,14 @@ h2 {
     font-size: 95%;
 }
 
+.server_info {
+    display: grid;
+    align-items: center; 
+    grid-template-columns: 50px 50px 50px;
+    column-gap: 50px;
+}
+
+
 .server-link {
     font-size: 80%;
     padding: 10px;

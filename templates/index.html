@@ -11,6 +11,9 @@
     {% if server_icon == "Ok": %}
         <img src="{{ url_for('static', filename='img/server-icon.png') }}" width="64" height="64">
     {% endif %}
+    <p class="motd">{{ server_status['motd'] }}</p>
+</div>
+<div class="server_url">
     <h2 >Java: <span onclick="copyLink('{{ server_uri_java }}')" class="server-link">{{ server_uri_java }}</span></h2>
     {% if server_uri_bedrock != "": %}
         <h2>Bedrock: <span onclick="copyLink('{{ server_uri_bedrock }}')" class="server-link">{{ server_uri_bedrock }}</span></h2>

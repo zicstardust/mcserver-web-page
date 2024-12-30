@@ -51,9 +51,13 @@ def get_server_status():
         head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
         running = (json.dumps(response.json()['data']['running']))
+        motd = json.dumps(response.json()['data']['desc'])
         players_online = (json.dumps(response.json()['data']['online']))
         players = convert_players_to_list(json.dumps(response.json()['data']['players']))
-        return dict(running=running, players_online=int(players_online), players=players)
+        return dict(running=running,
+                    motd=motd.replace("\"",""),
+                    players_online=int(players_online),
+                    players=players)
     return api_status
 
 def get_server_name():
