@@ -13,3 +13,11 @@ h1 {
 .Players_Online{
     margin-bottom: -30px;
 }
+
+ul {
+    list-style: none;
+  }
+  
+  ul li:before {
+    content: '- ';
+  }
