@@ -1,7 +1,11 @@
-# minecraft-server-web-page
-Simple web page to display the status of the minecraft server
+# Minecraft Server Web Page
+Simple web page to minecraft server on Crafty Controller
 
-## Run Docker Compose
+## API permissions
+- Access
+- Logs
+
+## Run with Docker Compose
 ```
 services:
   mcserver-web-page:
