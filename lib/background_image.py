@@ -1,10 +1,11 @@
-from os import rename, remove
+from os import environ, rename, remove
 from os.path import exists
 from shutil import copy
 import requests
 import filetype
-from .load_env import image_url
 
+
+image_url=environ.get("BACKGROUND_IMAGE_URL", "")
 image_path_temp='static/img/background_image_temp'
 
 def file_is_image(file) -> bool:

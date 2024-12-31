@@ -3,9 +3,8 @@ from os.path import exists
 import json
 import requests
 from html import unescape
-from .load_env import crafty_url, crafty_api_key, crafty_server_id
 
-def check_api(crafty_url=crafty_url, crafty_api_key=crafty_api_key, crafty_server_id=crafty_server_id):
+def check_api(crafty_url, crafty_api_key, crafty_server_id):
     api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}"
     head = {'Authorization': f'Bearer {crafty_api_key}'}
 
@@ -34,8 +33,8 @@ def convert_players_to_list(players:str):
     l.pop(0)
     return l
 
-def get_server_log():
-    api_status = check_api()
+def get_server_log(crafty_url, crafty_api_key, crafty_server_id ):
+    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
     if api_status == "Ok":
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/logs"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
@@ -44,8 +43,8 @@ def get_server_log():
         return server_status.splitlines()
     return api_status
 
-def get_server_status():
-    api_status = check_api()
+def get_server_status(crafty_url, crafty_api_key, crafty_server_id):
+    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
     if api_status == "Ok":
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
@@ -60,8 +59,8 @@ def get_server_status():
                     players=players)
     return api_status
 
-def get_server_name():
-    api_status = check_api()
+def get_server_name(crafty_url, crafty_api_key, crafty_server_id):
+    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
     if api_status == "Ok":
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
@@ -70,8 +69,8 @@ def get_server_name():
         return server_name.replace("\"","")
     return "MC Server"
 
-def get_server_icon():
-    api_status = check_api()
+def get_server_icon(crafty_url, crafty_api_key, crafty_server_id):
+    api_status = check_api(crafty_url, crafty_api_key, crafty_server_id)
     if api_status == "Ok":
         api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}/stats"
         head = {'Authorization': f'Bearer {crafty_api_key}'}
