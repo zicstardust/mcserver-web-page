@@ -14,6 +14,7 @@ def production():
 
 if __name__ == "__main__":
     from dotenv import load_dotenv
+    from os import environ
     load_dotenv()
     before_start_app()
-    app.run(debug=True)
+    app.run(debug=True, port=environ.get("PORT",5000))
