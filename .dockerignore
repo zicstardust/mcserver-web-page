@@ -16,3 +16,4 @@ background_image_temp
 .tool-versions
 server-icon.png
 database.db
+.secret.key
