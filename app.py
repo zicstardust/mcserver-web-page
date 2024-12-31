@@ -135,6 +135,7 @@ def admin():
 def production():
     with app.app_context():
         database.create_all()
+        create_default_database_register(database)
     return app
 
 
