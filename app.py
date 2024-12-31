@@ -47,6 +47,7 @@ def serverlog():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    create_default_database_register(database)
     if request.method == 'POST':
         user = request.form['userForm']
         password = request.form['passwordForm']
