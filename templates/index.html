@@ -8,10 +8,12 @@
 
 {% block content %}
 <div class="server_info">
-    {% if server_icon == "Ok": %}
-        <img src="{{ url_for('static', filename='img/server-icon.png') }}" width="64" height="64">
+    {% if server_status['running'] == 'true' %}
+        {% if server_icon == "Ok": %}
+            <img src="{{ url_for('static', filename='img/server-icon.png') }}" width="64" height="64">
+        {% endif %}
+        <p class="motd">{{ server_status['motd'] }}</p>
     {% endif %}
-    <p class="motd">{{ server_status['motd'] }}</p>
 </div>
 <div class="server_url">
     <h2 >Java: <span onclick="copyLink('{{ server_uri_java }}')" class="server-link">{{ server_uri_java }}</span></h2>

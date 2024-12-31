@@ -77,7 +77,7 @@ def get_server_icon():
         head = {'Authorization': f'Bearer {crafty_api_key}'}
         response = requests.get(api_url, headers=head)
         iconb64 = json.dumps(response.json()['data']['icon'])
-        if iconb64 != "":
+        if iconb64 != "null":
             e = iconb64[1:-1]
             repair = e.replace('\\n', '')
             imgdata = base64.b64decode(repair)
