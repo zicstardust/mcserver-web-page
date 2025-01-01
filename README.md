@@ -21,4 +21,6 @@ services:
       #BACKGROUND_IMAGE_URL: "https://exemple.com/image" #Opcional
     ports:
       - "5000:5000"
+    volumes:
+      -/path/to/data/:/data/
 ```

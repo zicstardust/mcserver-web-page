@@ -1,4 +1,6 @@
 import hashlib
+from os import environ, mkdir, chmod
+from pathlib import Path
 from flask_sqlalchemy import SQLAlchemy
 from os.path import exists
 from lib.models import *
@@ -8,7 +10,13 @@ def password_to_hash(password:str):
     hash = hashlib.sha256(password.encode(encoding='utf-8'))
     return hash.hexdigest()
 
-def get_secret_key(filename):
+def get_secret_key():
+    path=environ.get('DATADIR', f'{Path().resolve()}/data/')
+    filename = f"{path}.secret.key"
+    
+    if not exists(path):
+        mkdir(path) 
+    
     if exists (filename):
         file = open(filename, "r")
         secret_key = file.read()
@@ -17,7 +25,15 @@ def get_secret_key(filename):
         secret_key = token_urlsafe(16)
         with open(filename, 'w') as file_object:
             print(secret_key, file=file_object)
+        chmod(path, 0o700)
     return secret_key
+
+
+def get_database_path():
+    path=environ.get('DATADIR', f'{Path().resolve()}/data/')
+    if not exists(path):
+        mkdir(path)
+    return path
 
 def create_default_database_register(database:SQLAlchemy):
     u = database.session.query(User).all()

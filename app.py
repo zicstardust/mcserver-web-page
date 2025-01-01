@@ -2,15 +2,15 @@ from os import environ
 from flask import Flask, redirect, render_template, request, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from lib.database import database
-from lib.utils import create_default_database_register, password_to_hash, get_secret_key
+from lib.utils import *
 from lib.api_consumer import get_server_log, get_server_status, check_api, get_server_name, get_server_icon
 from lib.models import *
 
 app = Flask(__name__)
-app.secret_key = get_secret_key('.secret.key')
+app.secret_key = get_secret_key()
 lm = LoginManager(app)
 lm.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path()}database.db'
 database.init_app(app)
 
 @lm.user_loader
