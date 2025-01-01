@@ -13,6 +13,9 @@
     Password: <input type="password" name="passwordForm"><br>
     <input type="submit" value="Login">
 </form>
+{% if login_failed %}
+    <p class="login_failed">Login failed, incorrect username or password</p>
+{% endif %}
 
 {% endblock %}
 

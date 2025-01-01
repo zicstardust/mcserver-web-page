@@ -28,3 +28,6 @@ input[type=submit] {
     background-color: #45a049;
   }
 
+.login_failed {
+  color: red;
+}

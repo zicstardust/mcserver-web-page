@@ -63,7 +63,7 @@ def login():
         password = password_to_hash(request.form['passwordForm'])
         u = database.session.query(User).filter_by(user=user,password=password).first()
         if not u:
-            return "User or Password incorret"
+            return render_template("login.html", login_failed=True)
         login_user(u)
         return redirect((url_for('admin')))
     if request.method == 'GET':
