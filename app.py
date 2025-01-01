@@ -98,7 +98,8 @@ def admin():
         c = database.session.query(Craftyapi).filter_by(id=1).first()
         c.url = craftyurl
         c.server_id = craftyserverid
-        c.api_key = craftyapi
+        if craftyapi:
+            c.api_key = craftyapi
         database.session.commit()
 
         server_java = request.form['JavaURLForm']
@@ -123,7 +124,7 @@ def admin():
 
                     craftyurl=c.url,
                     craftyserverid=c.server_id,
-                    craftyapi=c.api_key,
+
 
                     server_java=i.server_java,
                     server_bedrock=i.server_bedrock,
