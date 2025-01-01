@@ -6,8 +6,9 @@ from os.path import exists
 from lib.models import *
 from secrets import token_urlsafe
 
-def password_to_hash(password:str):
-    hash = hashlib.sha256(password.encode(encoding='utf-8'))
+def password_to_hash(password:str, salt_key:str):
+    password_salt = str(password) + str(salt_key)
+    hash = hashlib.sha256(password_salt.encode(encoding = 'UTF-8'))
     return hash.hexdigest()
 
 def get_secret_key():
@@ -38,8 +39,10 @@ def get_database_path(filename):
 def create_default_database_register(database:SQLAlchemy):
     u = database.session.query(User).all()
     if not u:
+        salt_key = token_urlsafe(64)
         u = User(user='admin',
-                 password=password_to_hash('admin'))
+                 password=password_to_hash('admin', salt_key),
+                 salt_key = salt_key)
         database.session.add(u)
         database.session.commit()
 

@@ -7,6 +7,7 @@ class User(UserMixin, database.Model):
     id = database.Column(database.Integer, primary_key=True)
     user = database.Column(database.String(40), nullable=False, unique=True)
     password = database.Column(database.String(), nullable=False)
+    salt_key = database.Column(database.String(), nullable=False)
 
 
 class Craftyapi(database.Model):

@@ -60,7 +60,8 @@ def serverlog():
 def login():
     if request.method == 'POST':
         user = request.form['userForm']
-        password = password_to_hash(request.form['passwordForm'])
+        u = database.session.query(User).filter_by(id=1).first()
+        password = password_to_hash(request.form['passwordForm'], u.salt_key)
         u = database.session.query(User).filter_by(user=user,password=password).first()
         if not u:
             return render_template("login.html", login_failed=True)
@@ -87,7 +88,7 @@ def admin():
         if user:
             u.user = user
         if password:
-            u.password = password_to_hash(password)
+            u.password = password_to_hash(password, u.salt_key)
         database.session.commit()
 
         craftyurl = request.form['craftyurlForm']
