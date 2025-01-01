@@ -17,7 +17,9 @@ services:
     image: zicstardust/mcserver-web-page:latest
     restart: unless-stopped
     environment:
-      #PORT: 5000 #Opcional
+      #UID: 1000 #Permission /data
+      #GID: 1000 #Permission /data
+      #PORT: 5000 #App port
       #BACKGROUND_IMAGE_URL: "https://exemple.com/image" #Opcional
     ports:
       - "5000:5000"

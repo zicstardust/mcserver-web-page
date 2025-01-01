@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = get_secret_key()
 lm = LoginManager(app)
 lm.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path()}database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path('database.db')}'
 database.init_app(app)
 
 @lm.user_loader
@@ -135,6 +135,7 @@ def admin():
 def production():
     with app.app_context():
         database.create_all()
+        chmod(get_database_path('database.db'), 0o600)
         create_default_database_register(database)
     return app
 
@@ -142,6 +143,7 @@ def production():
 if __name__ == "__main__":
     with app.app_context():
         database.create_all()
+        chmod(get_database_path('database.db'), 0o600)
         create_default_database_register(database)
     from dotenv import load_dotenv
     from os import environ

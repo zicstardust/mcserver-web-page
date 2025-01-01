@@ -1,11 +1,10 @@
 FROM python:3.13.1-slim
 
 ENV PYTHONUNBUFFERED=1
-ENV DATADIR="/data/"
 
 ENV PORT=5000
-ENV UID=1001
-ENV GID=1001
+ENV UID=1000
+ENV GID=1000
 
 WORKDIR /app
 
@@ -16,10 +15,19 @@ RUN groupadd -g ${GID} mcwebserver; \
     pip3 install --no-cache-dir -r requirements.txt; \
     echo '#!/bin/sh' > /app/start.sh; \
     echo 'waitress-serve --port=${PORT} --call app:production' >> /app/start.sh; \
+    mkdir -p /data; \
+    chown -R mcwebserver:mcwebserver /data; \
+    ln -s /data /app/data; \
     chown -R mcwebserver:mcwebserver /app; \
     chmod 775 /app/start.sh
 
+RUN echo '#!/bin/sh' > /run.sh; \
+    echo 'chown -R mcwebserver:mcwebserver /data' >> /run.sh; \
+    echo 'chmod -R 700 /data' >> /run.sh; \
+    echo 'su -c /app/start.sh mcwebserver' >> /run.sh; \
+    chmod 775 /run.sh
+
 EXPOSE ${PORT}
 
-USER mcwebserver
-CMD [ "/app/start.sh" ]
+#USER mcwebserver
+CMD [ "/run.sh" ]

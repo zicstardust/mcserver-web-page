@@ -4,8 +4,11 @@ services:
     build: .
     env_file: .env
     environment:
-      - BACKGROUND_IMAGE_URL=${BACKGROUND_IMAGE_URL:-""}
+      UID: ${UID:-1000}
+      GID: ${GID:-1000}
+      BACKGROUND_IMAGE_URL: ${BACKGROUND_IMAGE_URL:-""}
+      PORT: ${PORT:-5000}
     ports:
       - "${PORT}:${PORT}"
     volumes:
-      -./data/:${DATADIR}
+      - ./data/:/data/

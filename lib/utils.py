@@ -11,8 +11,8 @@ def password_to_hash(password:str):
     return hash.hexdigest()
 
 def get_secret_key():
-    path=environ.get('DATADIR', f'{Path().resolve()}/data/')
-    filename = f"{path}.secret.key"
+    path=f'{Path().resolve()}/data'
+    filename = f"{path}/.secret.key"
     
     if not exists(path):
         mkdir(path) 
@@ -25,15 +25,15 @@ def get_secret_key():
         secret_key = token_urlsafe(16)
         with open(filename, 'w') as file_object:
             print(secret_key, file=file_object)
-        chmod(path, 0o700)
+    chmod(filename, 0o600)
     return secret_key
 
 
-def get_database_path():
-    path=environ.get('DATADIR', f'{Path().resolve()}/data/')
+def get_database_path(filename):
+    path=f'{Path().resolve()}/data'
     if not exists(path):
         mkdir(path)
-    return path
+    return f"{path}/{filename}"
 
 def create_default_database_register(database:SQLAlchemy):
     u = database.session.query(User).all()
