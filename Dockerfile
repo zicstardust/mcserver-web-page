@@ -23,7 +23,7 @@ RUN groupadd -g ${GID} mcwebserver; \
 
 RUN echo '#!/bin/sh' > /run.sh; \
     echo 'chown -R mcwebserver:mcwebserver /data' >> /run.sh; \
-    echo 'chmod -R 700 /data' >> /run.sh; \
+    echo 'chmod 700 /data' >> /run.sh; \
     echo 'su -c /app/start.sh mcwebserver' >> /run.sh; \
     chmod 775 /run.sh
 
