@@ -8,7 +8,7 @@ from secrets import token_urlsafe
 
 def password_to_hash(password:str, salt_key:str):
     password_salt = str(password) + str(salt_key)
-    hash = hashlib.sha256(password_salt.encode(encoding = 'UTF-8'))
+    hash = hashlib.sha512(password_salt.encode(encoding = 'UTF-8'))
     return hash.hexdigest()
 
 def get_secret_key():
