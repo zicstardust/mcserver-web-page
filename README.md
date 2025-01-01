@@ -5,8 +5,9 @@ Simple web page to minecraft server on Crafty Controller
 - Access
 - Logs
 
+**No use "full access" API permission**
+
 ## Default credentials
-in `/admin`
 - **User:** admin
 - **Password:** admin
 
