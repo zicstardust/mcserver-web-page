@@ -1,3 +1,15 @@
+.api_status {
+  margin-top: -20px;
+}
+
+.api_status span {
+  padding: 5px;
+  background-color: black;
+  border-style: groove;
+  border-radius: 5px;
+  border-color: white;
+}
+
 form [type=text],[type=password], select{
     width: 100%;
     padding: 12px 20px;

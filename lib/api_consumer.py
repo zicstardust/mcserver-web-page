@@ -11,18 +11,20 @@ def check_api(crafty_url, crafty_api_key, crafty_server_id):
     try:
         response = requests.get(api_url, headers=head)
     except requests.exceptions.MissingSchema:
-        return "Crafty URL Missing Schema"
+        return "Crafty URL Missing Schema (http:// or https://)"
     except requests.exceptions.ConnectionError:
         return "Crafty URL not found"
     
     if response.status_code == 400:
-        return "Server ID invalid"
+        return f"HTTP {response.status_code} error - Server ID invalid"
     
     if response.status_code == 403:
-        return "API KEY invalid"
+        return f"HTTP {response.status_code} error - API KEY invalid"
     
     if response.status_code == 200:
         return "Ok"
+    
+    return f"HTTP {response.status_code} error"
 
 
 def convert_players_to_list(players:str):
