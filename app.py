@@ -1,4 +1,5 @@
 from os import chmod, environ
+from secrets import token_urlsafe
 from flask import Flask, redirect, render_template, request, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from lib.database import database
@@ -88,7 +89,9 @@ def admin():
         if user:
             u.user = user
         if password:
-            u.password = password_to_hash(password, u.salt_key)
+            salt_key = token_urlsafe(64)
+            u.salt_key = salt_key
+            u.password = password_to_hash(password, salt_key)
         database.session.commit()
 
         craftyurl = request.form['craftyurlForm']
