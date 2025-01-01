@@ -5,15 +5,15 @@ import requests
 import filetype
 
 
-image_url=environ.get("BACKGROUND_IMAGE_URL", "")
+image_url=environ.get('BACKGROUND_IMAGE_URL', '')
 image_path_temp='static/img/background_image_temp'
 
 def file_is_image(file) -> bool:
     kind = filetype.guess(file).mime
     if not "image" in kind:
-        print('%s no is image file type!' % image_url)
-        print('File extension: %s' % kind.extension)
-        print('File MIME type: %s' % kind.mime)
+        print(f'{image_url} no is image file type!')
+        print(f'File extension: {kind.extension}')
+        print(f'File MIME type: {kind.mime}')
         remove(file)
         return False
     else:
@@ -25,12 +25,13 @@ def download_image():
 
 
 def define_background_image():
-    if exists("static/img/background_image_use"):
-        remove("static/img/background_image_use")
-    if image_url != "":
+    if exists('static/img/background_image_use'):
+        remove('static/img/background_image_use')
+    if image_url != '':
         download_image()
         if exists(image_path_temp) and file_is_image(image_path_temp):
-            rename(image_path_temp, "static/img/background_image_use")
+            rename(image_path_temp, 'static/img/background_image_use')
+            print('Set background image!')
             return
         
     copy('static/img/background_image_original.png', 'static/img/background_image_use')
