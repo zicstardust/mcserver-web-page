@@ -1,10 +1,10 @@
-from os import environ
+from os import chmod, environ
 from flask import Flask, redirect, render_template, request, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from lib.database import database
-from lib.utils import *
+from lib.utils import password_to_hash, get_secret_key, get_database_path, create_default_database_register
 from lib.api_consumer import get_server_log, get_server_status, check_api, get_server_name, get_server_icon
-from lib.models import *
+from lib.models import User, Craftyapi, Infos
 from lib.background_image import define_background_image
 
 app = Flask(__name__)

@@ -1,5 +1,5 @@
 import hashlib
-from os import environ, mkdir, chmod
+from os import mkdir, chmod
 from pathlib import Path
 from flask_sqlalchemy import SQLAlchemy
 from os.path import exists
