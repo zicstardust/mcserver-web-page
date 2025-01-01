@@ -5,6 +5,7 @@ from lib.database import database
 from lib.utils import *
 from lib.api_consumer import get_server_log, get_server_status, check_api, get_server_name, get_server_icon
 from lib.models import *
+from lib.background_image import define_background_image
 
 app = Flask(__name__)
 app.secret_key = get_secret_key()
@@ -137,6 +138,7 @@ def production():
         database.create_all()
         chmod(get_database_path('database.db'), 0o600)
         create_default_database_register(database)
+    define_background_image()
     return app
 
 
@@ -148,4 +150,5 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
     from os import environ
     load_dotenv()
+    define_background_image()
     app.run(debug=True, port=environ.get("PORT",5000))
