@@ -24,5 +24,5 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      -/path/to/data/:/data/
+      - /path/to/data/:/data/
 ```
