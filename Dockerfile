@@ -8,13 +8,14 @@ ENV GID=1000
 
 WORKDIR /app
 
-COPY . .
+COPY requirements.txt .
+COPY /app .
 
 RUN groupadd -g ${GID} mcwebserver; \
     useradd mcwebserver -u ${UID} -g mcwebserver; \
     pip3 install --no-cache-dir -r requirements.txt; \
     echo '#!/bin/sh' > /app/start.sh; \
-    echo 'waitress-serve --port=${PORT} --call app:production' >> /app/start.sh; \
+    echo 'waitress-serve --port=${PORT} --call main:production' >> /app/start.sh; \
     mkdir -p /data; \
     chown -R mcwebserver:mcwebserver /data; \
     ln -s /data /app/data; \

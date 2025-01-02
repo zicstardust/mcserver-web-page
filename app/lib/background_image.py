@@ -3,10 +3,11 @@ from os.path import exists
 from shutil import copy
 import requests
 import filetype
+from lib.utils import resolve_path
 
 
 image_url=environ.get('BACKGROUND_IMAGE_URL', '')
-image_path_temp='static/img/background_image_temp'
+image_path_temp=f'{resolve_path()}/static/img/background_image_temp'
 
 def file_is_image(file) -> bool:
     kind = filetype.guess(file).mime
@@ -25,13 +26,13 @@ def download_image():
 
 
 def define_background_image():
-    if exists('static/img/background_image_use'):
-        remove('static/img/background_image_use')
+    if exists(f'{resolve_path()}/static/img/background_image_use'):
+        remove(f'{resolve_path()}/static/img/background_image_use')
     if image_url != '':
         download_image()
         if exists(image_path_temp) and file_is_image(image_path_temp):
-            rename(image_path_temp, 'static/img/background_image_use')
+            rename(image_path_temp, f'{resolve_path()}/static/img/background_image_use')
             print('Set background image!')
             return
         
-    copy('static/img/background_image_original.png', 'static/img/background_image_use')
+    copy(f'{resolve_path()}/static/img/background_image_original.png', f'{resolve_path()}/static/img/background_image_use')

@@ -6,13 +6,20 @@ from os.path import exists
 from lib.models import *
 from secrets import token_urlsafe
 
+def resolve_path():
+    path = Path().resolve()
+    if exists(f'{path}/main.py'):
+        return Path().resolve()
+    else:
+        return f'{Path().resolve()}/app'
+
 def password_to_hash(password:str, salt_key:str):
     password_salt = str(password) + str(salt_key)
     hash = hashlib.sha512(password_salt.encode(encoding = 'UTF-8'))
     return hash.hexdigest()
 
 def get_secret_key():
-    path=f'{Path().resolve()}/data'
+    path=f'{resolve_path()}/data'
     filename = f"{path}/.secret.key"
     
     if not exists(path):
@@ -31,7 +38,7 @@ def get_secret_key():
 
 
 def get_database_path(filename):
-    path=f'{Path().resolve()}/data'
+    path=f'{resolve_path()}/data'
     if not exists(path):
         mkdir(path)
     return f"{path}/{filename}"

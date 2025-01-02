@@ -3,6 +3,7 @@ from os.path import exists
 import json
 import requests
 from html import unescape
+from lib.utils import resolve_path
 
 def check_api(crafty_url, crafty_api_key, crafty_server_id):
     api_url = f"{crafty_url}/api/v2/servers/{crafty_server_id}"
@@ -82,7 +83,7 @@ def get_server_icon(crafty_url, crafty_api_key, crafty_server_id):
             e = iconb64[1:-1]
             repair = e.replace('\\n', '')
             imgdata = base64.b64decode(repair)
-            file = 'static/img/server-icon.png'
+            file = f'{resolve_path()}/static/img/server-icon.png'
             with open(file, 'wb') as f:
                 f.write(imgdata)
             if exists(file):
