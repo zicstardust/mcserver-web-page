@@ -1,14 +1,24 @@
 from os import chmod, environ
-from secrets import token_urlsafe
-from flask import Flask, redirect, render_template, request, url_for
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask import Flask
+from flask_login import LoginManager, current_user
 from lib.database import database
-from lib.utils import password_to_hash, get_secret_key, get_database_path, create_default_database_register
-from lib.api_consumer import get_server_log, get_server_status, check_api, get_server_name, get_server_icon
+from lib.utils import get_secret_key, get_database_path, create_default_database_register
+from lib.api_consumer import check_api, get_server_name
 from lib.models import User, Craftyapi, Infos
 from lib.background_image import define_background_image
+from routes.login import login_bp
+from routes.logout import logout_bp
+from routes.index import index_bp
+from routes.server_log import server_log_bp
+from routes.admin import admin_bp
+
 
 app = Flask(__name__)
+app.register_blueprint(login_bp)
+app.register_blueprint(logout_bp)
+app.register_blueprint(index_bp)
+app.register_blueprint(server_log_bp)
+app.register_blueprint(admin_bp)
 app.secret_key = get_secret_key()
 lm = LoginManager(app)
 lm.login_view = 'login'
@@ -33,110 +43,6 @@ def inject_global_vars():
                 api_status=api_status,
                 current_user=current_user
                 )
-
-
-@app.route("/")
-def index():
-    c = database.session.query(Craftyapi).filter_by(id=1).first()
-    i = database.session.query(Infos).filter_by(id=1).first()
-    server_status = get_server_status(c.url, c.api_key, c.server_id)
-    server_icon = get_server_icon(c.url, c.api_key, c.server_id)
-    return render_template("index.html",
-                           server_status=server_status,
-                           server_uri_java=i.server_java,
-                           server_uri_bedrock=i.server_bedrock,
-                           server_icon=server_icon
-                           )
-
-@app.route("/serverlog")
-def serverlog():
-    c = database.session.query(Craftyapi).filter_by(id=1).first()
-    server_log = get_server_log(c.url, c.api_key, c.server_id)
-    
-    return render_template("server_log.html",
-                           server_log=server_log
-                           )
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        user = request.form['userForm']
-        u = database.session.query(User).filter_by(id=1).first()
-        password = password_to_hash(request.form['passwordForm'], u.salt_key)
-        u = database.session.query(User).filter_by(user=user,password=password).first()
-        if not u:
-            return render_template("login.html", login_failed=True)
-        login_user(u)
-        return redirect((url_for('admin')))
-    if request.method == 'GET':
-        return render_template("login.html")
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect((url_for('index')))
-
-@app.route("/admin", methods=['GET', 'POST'])
-@login_required
-def admin():
-    if request.method == 'POST':
-        user = request.form['userForm']
-        password = request.form['passwordForm']
-
-        u = database.session.query(User).filter_by(id=1).first()
-        if user:
-            u.user = user
-        if password:
-            salt_key = token_urlsafe(64)
-            u.salt_key = salt_key
-            u.password = password_to_hash(password, salt_key)
-        database.session.commit()
-
-        craftyurl = request.form['craftyurlForm']
-        craftyserverid = request.form['serverIdForm']
-        craftyapi = request.form['craftyapiForm']
-        
-
-        c = database.session.query(Craftyapi).filter_by(id=1).first()
-        c.url = craftyurl
-        c.server_id = craftyserverid
-        if craftyapi:
-            c.api_key = craftyapi
-        database.session.commit()
-
-        server_java = request.form['JavaURLForm']
-        server_bedrock = request.form['BedrockURLForm']
-        server_map = request.form['MapURLForm']
-        discord_link = request.form['DiscordLinkForm']
-
-        i = database.session.query(Infos).filter_by(id=1).first()
-        i.server_java = server_java
-        i.server_bedrock = server_bedrock
-        i.server_map = server_map
-        i.discord_link = discord_link
-        database.session.commit()
-        return redirect((url_for('index')))
-    
-    if request.method == 'GET':
-        u = database.session.query(User).filter_by(id=1).first()
-        c = database.session.query(Craftyapi).filter_by(id=1).first()
-        i = database.session.query(Infos).filter_by(id=1).first()
-        data = dict(
-                    user=u.user,
-
-                    craftyurl=c.url,
-                    craftyserverid=c.server_id,
-
-
-                    server_java=i.server_java,
-                    server_bedrock=i.server_bedrock,
-                    server_map=i.server_map,
-                    discord_link=i.discord_link)
-        return render_template("admin.html", data=data)
-
-
 
 def production():
     with app.app_context():
