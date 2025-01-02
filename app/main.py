@@ -1,6 +1,6 @@
 from os import chmod, environ
 from flask import Flask
-from flask_login import LoginManager, current_user
+from flask_login import current_user
 from lib.extensions import database, lm
 from lib.utils import get_secret_key, get_database_path, create_default_database_register
 from lib.api_consumer import check_api, get_server_name
@@ -13,38 +13,40 @@ from routes.server_log import server_log_bp
 from routes.admin import admin_bp
 
 
-app = Flask(__name__)
-app.register_blueprint(login_bp)
-app.register_blueprint(logout_bp)
-app.register_blueprint(index_bp)
-app.register_blueprint(server_log_bp)
-app.register_blueprint(admin_bp)
-app.secret_key = get_secret_key()
-lm.init_app(app)
-lm.login_view = 'login'
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path('database.db')}'
-database.init_app(app)
+def create_app(database_uri=f'sqlite:///{get_database_path('database.db')}'):
+    app = Flask(__name__)
+    app.register_blueprint(login_bp)
+    app.register_blueprint(logout_bp)
+    app.register_blueprint(index_bp)
+    app.register_blueprint(server_log_bp)
+    app.register_blueprint(admin_bp)
+    app.secret_key = get_secret_key()
+    lm.init_app(app)
+    lm.login_view = 'login'
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+    database.init_app(app)
 
-@lm.user_loader
-def user_loader(id):
-    user = database.session.query(User).filter_by(id=id).first()
-    return user
+    @lm.user_loader
+    def user_loader(id):
+        user = database.session.query(User).filter_by(id=id).first()
+        return user
     
-@app.context_processor
-def inject_global_vars():
-    i = database.session.query(Infos).filter_by(id=1).first()
-    c = database.session.query(Craftyapi).filter_by(id=1).first()
-    api_status = check_api(c.url, c.api_key, c.server_id)
-    server_name=get_server_name(c.url, c.api_key, c.server_id)
-
-    return dict(server_name=server_name,
-                server_map_url=i.server_map,
-                discord_link=i.discord_link,
-                api_status=api_status,
-                current_user=current_user
-                )
+    @app.context_processor
+    def inject_global_vars():
+        i = database.session.query(Infos).filter_by(id=1).first()
+        c = database.session.query(Craftyapi).filter_by(id=1).first()
+        api_status = check_api(c.url, c.api_key, c.server_id)
+        server_name=get_server_name(c.url, c.api_key, c.server_id)
+        return dict(server_name=server_name,
+                    server_map_url=i.server_map,
+                    discord_link=i.discord_link,
+                    api_status=api_status,
+                    current_user=current_user
+                    )
+    return app
 
 def production():
+    app = create_app()
     with app.app_context():
         database.create_all()
         chmod(get_database_path('database.db'), 0o600)
@@ -54,6 +56,7 @@ def production():
 
 
 if __name__ == "__main__":
+    app = create_app()
     with app.app_context():
         database.create_all()
         chmod(get_database_path('database.db'), 0o600)
