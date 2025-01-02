@@ -18,9 +18,12 @@ def password_to_hash(password:str, salt_key:str):
     hash = hashlib.sha512(password_salt.encode(encoding = 'UTF-8'))
     return hash.hexdigest()
 
-def get_secret_key():
+def get_secret_key(testing=False):
     path=f'{resolve_path()}/data'
-    filename = f"{path}/.secret.key"
+    if testing:
+        filename = f"{path}/TEST.secret.key"
+    else:
+        filename = f"{path}/.secret.key"
     
     if not exists(path):
         mkdir(path) 
@@ -37,11 +40,15 @@ def get_secret_key():
     return secret_key
 
 
-def get_database_path(filename):
+def get_database_path(filename, testing=False):
     path=f'{resolve_path()}/data'
     if not exists(path):
         mkdir(path)
-    return f"{path}/{filename}"
+     
+    if testing:
+        return f"{path}/TEST.db"
+    else:
+        return f"{path}/{filename}"
 
 def create_default_database_register(database:SQLAlchemy):
     u = database.session.query(User).all()

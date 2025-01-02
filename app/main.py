@@ -13,17 +13,17 @@ from routes.server_log import server_log_bp
 from routes.admin import admin_bp
 
 
-def create_app(database_uri=f'sqlite:///{get_database_path('database.db')}'):
+def create_app(testing=False):
     app = Flask(__name__)
     app.register_blueprint(login_bp)
     app.register_blueprint(logout_bp)
     app.register_blueprint(index_bp)
     app.register_blueprint(server_log_bp)
     app.register_blueprint(admin_bp)
-    app.secret_key = get_secret_key()
+    app.secret_key = get_secret_key(testing)
     lm.init_app(app)
     lm.login_view = 'login'
-    app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path('database.db', testing)}'
     database.init_app(app)
 
     @lm.user_loader
