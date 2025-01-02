@@ -21,10 +21,10 @@ def create_app(testing=False):
     app.register_blueprint(server_log_bp)
     app.register_blueprint(admin_bp)
     app.secret_key = get_secret_key(testing)
+    database.init_app(app)
     lm.init_app(app)
     lm.login_view = 'login'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path('database.db', testing)}'
-    database.init_app(app)
 
     @lm.user_loader
     def user_loader(id):

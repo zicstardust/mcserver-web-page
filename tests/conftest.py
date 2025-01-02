@@ -1,8 +1,6 @@
-from os import chmod
 import pytest
-
 from app.lib.background_image import define_background_image
-from app.lib.utils import create_default_database_register, get_database_path
+from app.lib.utils import create_default_database_register
 from app.main import create_app, database
 
 @pytest.fixture()
