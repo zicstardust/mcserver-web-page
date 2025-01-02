@@ -1,7 +1,7 @@
 from os import chmod, environ
 from flask import Flask
 from flask_login import LoginManager, current_user
-from lib.database import database
+from lib.extensions import database, lm
 from lib.utils import get_secret_key, get_database_path, create_default_database_register
 from lib.api_consumer import check_api, get_server_name
 from lib.models import User, Craftyapi, Infos
@@ -20,7 +20,7 @@ app.register_blueprint(index_bp)
 app.register_blueprint(server_log_bp)
 app.register_blueprint(admin_bp)
 app.secret_key = get_secret_key()
-lm = LoginManager(app)
+lm.init_app(app)
 lm.login_view = 'login'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{get_database_path('database.db')}'
 database.init_app(app)

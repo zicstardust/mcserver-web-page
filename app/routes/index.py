@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from lib import database
+from lib.extensions import database
 from lib.api_consumer import get_server_icon, get_server_status
 from lib.models import *
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_user
-from lib import database
+from lib.extensions import database
 from lib.models import *
 from lib.utils import password_to_hash
 
