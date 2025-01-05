@@ -6,29 +6,27 @@ ENV PORT=5000
 ENV UID=1000
 ENV GID=1000
 
-WORKDIR /app
+WORKDIR /home/mcwebserver
 
 COPY requirements.txt .
 COPY /app .
 
 RUN addgroup mcwebserver -g ${GID}; \
     adduser mcwebserver -u ${UID} -D -G mcwebserver; \
-    pip3 install --no-cache-dir -r requirements.txt; \
-    echo '#!/bin/sh' > /app/start.sh; \
-    echo 'waitress-serve --port=${PORT} --call main:production' >> /app/start.sh; \
     mkdir -p /data; \
     chown -R mcwebserver:mcwebserver /data; \
-    ln -s /data /app/data; \
-    chown -R mcwebserver:mcwebserver /app; \
-    chmod 775 /app/start.sh
+    chown -R mcwebserver:mcwebserver /home/mcwebserver
+    
+USER mcwebserver
 
-RUN echo '#!/bin/sh' > /run.sh; \
-    echo 'chown -R mcwebserver:mcwebserver /data' >> /run.sh; \
-    echo 'chmod 700 /data' >> /run.sh; \
-    echo 'su -c /app/start.sh mcwebserver' >> /run.sh; \
-    chmod 775 /run.sh
+RUN pip3 install --user --no-cache-dir -r requirements.txt; \
+    ln -s /data /home/mcwebserver/data; \
+    echo '#!/bin/sh' > /home/mcwebserver/start.sh; \
+    echo 'waitress-serve --port=${PORT} --call main:production' >> /home/mcwebserver/start.sh; \
+    chmod 775 /home/mcwebserver/start.sh
+
+ENV PATH="/home/mcwebserver/.local/bin:${PATH}"
 
 EXPOSE ${PORT}
 
-#USER mcwebserver
-CMD [ "/run.sh" ]
+CMD [ "/home/mcwebserver/start.sh" ]

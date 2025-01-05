@@ -34,8 +34,12 @@ def get_secret_key(testing=False):
         file.close()
     else:
         secret_key = token_urlsafe(16)
-        with open(filename, 'w') as file_object:
-            print(secret_key, file=file_object)
+        try:
+            with open(filename, 'w') as file_object:
+                print(secret_key, file=file_object)
+        except PermissionError:
+            print('Permission denied: /data')
+            exit(13)
     chmod(filename, 0o600)
     return secret_key
 
