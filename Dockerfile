@@ -1,4 +1,4 @@
-FROM python:3.13.1-slim
+FROM python:3.13.1-alpine
 
 ENV PYTHONUNBUFFERED=1
 
@@ -11,8 +11,8 @@ WORKDIR /app
 COPY requirements.txt .
 COPY /app .
 
-RUN groupadd -g ${GID} mcwebserver; \
-    useradd mcwebserver -u ${UID} -g mcwebserver; \
+RUN addgroup mcwebserver -g ${GID}; \
+    adduser mcwebserver -u ${UID} -D -G mcwebserver; \
     pip3 install --no-cache-dir -r requirements.txt; \
     echo '#!/bin/sh' > /app/start.sh; \
     echo 'waitress-serve --port=${PORT} --call main:production' >> /app/start.sh; \
