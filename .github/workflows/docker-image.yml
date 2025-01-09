@@ -1,14 +1,22 @@
-name: Docker Image CI
+name: Push Image to Docker Hub
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'app/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'app/**'
 
 env:
   PLATAFORM_ARCH: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
-  
+  DOCKER_HUB_REPO: ${{ vars.DOCKERHUB_USERNAME }}/mcserver-web-page
 jobs:
   build:
     
@@ -42,4 +50,4 @@ jobs:
           context: .
           platforms: ${{ env.PLATAFORM_ARCH }}
           push: true
-          tags: zicstardust/mcserver-web-page:latest
+          tags: ${{ env.DOCKER_HUB_REPO }}:latest
