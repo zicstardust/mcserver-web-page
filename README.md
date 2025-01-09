@@ -1,8 +1,31 @@
 # Minecraft Server Web Page
 Simple web page to minecraft server on Crafty Controller
 
-## Infos
+[GitHub](https://github.com/zicstardust/mcserver-web-page)
 
+[Docker Hub](https://hub.docker.com/r/zicstardust/mcserver-web-page)
+
+
+## Supported Architectures
+
+| Architecture | Available | Tag |
+| :----: | :----: | ---- |
+| 386 | ✅ | latest |
+| amd64 | ✅ | latest |
+| arm/v6 | ✅ | latest |
+| arm/v7 | ✅ | latest |
+| arm64 | ✅ | latest |
+| ppc64le | ✅ | latest |
+| s390x | ✅ | latest |
+
+## Tags
+
+| Tag | Available | Description |
+| :----: | :----: |--- |
+| [`latest`](https://github.com/zicstardust/mcserver-web-page/blob/main/Dockerfile) | ✅ | Default tag |
+
+
+## Usage
 ### API permission required
 - Access
 - Logs
@@ -13,39 +36,41 @@ Simple web page to minecraft server on Crafty Controller
 - **User:** admin
 - **Password:** admin
 
-## Dev environment
-
-### Python version
-Recommended to use asdf to keep the same python version
-
-Python version used in `.tool-versions` file
-
-### Install dependencies
-```
-pip install -r requirements-dev.txt
-```
-### Run tests
-```
-PYTHONPATH=./app pytest -v
-```
-### Run app
-```
-python app/main.py
-```
-
-## Production - Docker Compose
+### docker-compose
 ```
 services:
   mcserver-web-page:
     image: zicstardust/mcserver-web-page:latest
     restart: unless-stopped
+    container_name: mcserver-web-page
     environment:
-      #UID: 1000 #Permission /data
-      #GID: 1000 #Permission /data
-      #PORT: 5000 #App port
-      #BACKGROUND_IMAGE_URL: "https://exemple.com/image" #Opcional
+      UID: 1000
+      GID: 1000
     ports:
       - "5000:5000"
     volumes:
       - /path/to/data/:/data/
 ```
+### docker cli
+```
+docker run -d \
+  --name=mcserver-web-page \
+  -e UID=1000 \
+  -e GID=1000 \
+  -p 5000:5000 \
+  -v /path/to/data/:/data/ \
+  --restart unless-stopped \
+  zicstardust/mcserver-web-page:latest
+```
+## Environment variables
+
+| variables | Function | Default |
+| :----: | --- | --- |
+| `UID` | Set User ID | 1000 |
+| `GID` | Set Group ID | 1000 |
+| `PORT` | Set http port | 5000 |
+| `BACKGROUND_IMAGE_URL` | Set background image | |
+
+
+## Dev environment
+[Dev environment here](https://github.com/zicstardust/mcserver-web-page/blob/main/README-dev.md)
