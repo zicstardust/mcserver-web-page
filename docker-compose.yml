@@ -3,11 +3,6 @@ services:
     container_name: mcserver-web-page
     build: .
     env_file: .env
-    environment:
-      UID: ${UID:-1000}
-      GID: ${GID:-1000}
-      #BACKGROUND_IMAGE_URL: ${BACKGROUND_IMAGE_URL}
-      PORT: ${PORT:-5000}
     ports:
       - "${PORT:-5000}:${PORT:-5000}"
     volumes:
