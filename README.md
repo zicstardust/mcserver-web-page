@@ -68,7 +68,6 @@ docker run -d \
 | :----: | --- | --- |
 | `UID` | Set User ID | 1000 |
 | `GID` | Set Group ID | 1000 |
-| `PORT` | Set http port | 5000 |
 | `BACKGROUND_IMAGE_URL` | Set background image | |
 
 

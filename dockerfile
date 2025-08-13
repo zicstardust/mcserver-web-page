@@ -1,32 +1,28 @@
 FROM python:3.13.6-alpine
 
 ENV PYTHONUNBUFFERED=1
-
-ENV PORT=5000
 ENV UID=1000
 ENV GID=1000
 
-WORKDIR /home/mcwebserver
+WORKDIR /app
 
 COPY requirements.txt .
 COPY /app .
 
-RUN addgroup mcwebserver -g ${GID}; \
-    adduser mcwebserver -u ${UID} -D -G mcwebserver; \
-    mkdir -p /data; \
-    chown -R mcwebserver:mcwebserver /data; \
-    chown -R mcwebserver:mcwebserver /home/mcwebserver
-    
-USER mcwebserver
-
-RUN pip3 install --user --no-cache-dir -r requirements.txt; \
-    ln -s /data /home/mcwebserver/data; \
-    echo '#!/bin/sh' > /home/mcwebserver/start.sh; \
-    echo 'waitress-serve --port=${PORT} --call main:production' >> /home/mcwebserver/start.sh; \
-    chmod 775 /home/mcwebserver/start.sh
+RUN apk add --no-cache su-exec shadow; \
+    addgroup mcwebserver -g ${GID}; \
+    adduser -D -u ${UID} -G mcwebserver mcwebserver; \
+    mkdir -p /home/mcwebserver; \
+    chown -R mcwebserver:mcwebserver /home/mcwebserver; \
+    su-exec mcwebserver pip3 install --user --no-cache-dir -r requirements.txt; \
+    ln -s /data /app/data
 
 ENV PATH="/home/mcwebserver/.local/bin:${PATH}"
 
-EXPOSE ${PORT}
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD [ "/home/mcwebserver/start.sh" ]
+EXPOSE 5000
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["waitress-serve", "--port=5000", "--call", "main:production"]
