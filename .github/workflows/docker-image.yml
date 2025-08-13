@@ -4,13 +4,13 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'Dockerfile'
+      - 'dockerfile'
       - 'requirements.txt'
       - 'app/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'Dockerfile'
+      - 'dockerfile'
       - 'requirements.txt'
       - 'app/**'
 
