@@ -44,8 +44,8 @@ services:
     restart: unless-stopped
     container_name: mcserver-web-page
     environment:
-      UID: 1000
-      GID: 1000
+      PUID: 1000
+      PGID: 1000
     ports:
       - "5000:5000"
     volumes:
@@ -55,8 +55,8 @@ services:
 ```
 docker run -d \
   --name=mcserver-web-page \
-  -e UID=1000 \
-  -e GID=1000 \
+  -e PUID=1000 \
+  -e PGID=1000 \
   -p 5000:5000 \
   -v /path/to/data/:/data/ \
   --restart unless-stopped \
@@ -66,8 +66,8 @@ docker run -d \
 
 | variables | Function | Default |
 | :----: | --- | --- |
-| `UID` | Set User ID | 1000 |
-| `GID` | Set Group ID | 1000 |
+| `PUID` | Set User ID | 1000 |
+| `PGID` | Set Group ID | 1000 |
 | `BACKGROUND_IMAGE_URL` | Set background image | |
 
 

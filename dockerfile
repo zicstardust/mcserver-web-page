@@ -1,8 +1,8 @@
 FROM python:3.13.6-alpine
 
 ENV PYTHONUNBUFFERED=1
-ENV UID=1000
-ENV GID=1000
+ENV PUID=1000
+ENV PGID=1000
 
 WORKDIR /app
 
@@ -10,8 +10,8 @@ COPY requirements.txt .
 COPY /app .
 
 RUN apk add --no-cache su-exec shadow; \
-    addgroup mcwebserver -g ${GID}; \
-    adduser -D -u ${UID} -G mcwebserver mcwebserver; \
+    addgroup mcwebserver -g ${PGID}; \
+    adduser -D -u ${PUID} -G mcwebserver mcwebserver; \
     mkdir -p /home/mcwebserver; \
     chown -R mcwebserver:mcwebserver /home/mcwebserver; \
     su-exec mcwebserver pip3 install --user --no-cache-dir -r requirements.txt; \

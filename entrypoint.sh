@@ -1,13 +1,13 @@
 #!/bin/sh
 set -e
 
-if [ "$(id -g mcwebserver)" != "${GID}" ]; then
-    groupmod -o -g "${GID}" mcwebserver
+if [ "$(id -g mcwebserver)" != "${PGID}" ]; then
+    groupmod -o -g "${PGID}" mcwebserver
 fi
 
 
-if [ "$(id -u mcwebserver)" != "${UID}" ]; then
-    usermod -o -u "${UID}" mcwebserver
+if [ "$(id -u mcwebserver)" != "${PUID}" ]; then
+    usermod -o -u "${PUID}" mcwebserver
 fi
 
 mkdir -p /data 
